@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+    <title>会员公约</title>
+    <link rel="stylesheet" href="css/reset.css">
+    <script src="js/vue.min.js"></script>
+    <script src="js/template.js"></script>
+    <script src="js/reset.js"></script>
+    <style>
+    	body{
+    		padding: 0;
+    		margin: 0;
+    	}
+    	.banner{
+    		width: 100%;
+    		height: 11rem;
+    	}
+    </style>
+</head>
+<body>
+	<header id="header" class="">
+		<banner :src="src" class='banner'></banner>
+	</header>
+	<!-- /header -->
+	<div class="content">
+		
+	</div>
+</body>
+<script>
+new Vue({
+	el: '#header',
+	data:{
+		src:'./img/banner1.png'
+	},
+});
+</script>
+</html>    

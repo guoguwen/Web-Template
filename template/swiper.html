@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+	<title>Document</title>
+	<link rel="stylesheet" href="css/reset.css">
+	<link rel="stylesheet" href="css/swiper.min.css">
+	<script src="js/jquery-3.1.1.min.js"></script>
+	<script src="js/swiper-3.4.2.min.js"></script>
+	<script src="js/moment.js"></script>
+	<script src="js/util.js"></script>
+	<style>
+	body {
+        background: #eee;
+        font-family: Helvetica Neue, Helvetica, Arial, sans-serif;
+        font-size: 14px;
+        color:#000;
+        margin: 0;
+        padding: 0;
+    }
+    .swiper-container {
+       width: 100%;
+       height: 187px;
+    }
+    .swiper-slide {
+        text-align: center;
+        font-size: 18px;
+        background: #fff;
+
+        /* Center slide text vertically */
+        display: -webkit-box;
+        display: -ms-flexbox;
+        display: -webkit-flex;
+        display: flex;
+        -webkit-box-pack: center;
+        -ms-flex-pack: center;
+        -webkit-justify-content: center;
+        justify-content: center;
+        -webkit-box-align: center;
+        -ms-flex-align: center;
+        -webkit-align-items: center;
+        align-items: center;
+    }
+	</style>
+</head>
+<body>
+	 <div class="swiper-container">
+        <div class="swiper-wrapper">
+            <div class="swiper-slide"><img src="img/banner1.png" height="187" alt=""></div>
+            <div class="swiper-slide"><img src="img/banner2.png" height="187" alt=""></div>
+            <div class="swiper-slide"><img src="img/banner3.png" height="187" alt=""></div>
+            <div class="swiper-slide"><img src="img/banner4.png" height="187" alt=""></div>
+            <div class="swiper-slide"><img src="img/banner5.png" height="187" alt=""></div>
+            <div class="swiper-slide"><img src="img/banner6.png" height="187" alt=""></div>
+            <div class="swiper-slide"><img src="img/banner7.png" height="187" alt=""></div>
+            <div class="swiper-slide"><img src="img/banner8.png" height="187" alt=""></div>
+            <div class="swiper-slide"><img src="img/banner9.png" height="187" alt=""></div>
+        </div>
+        <!-- Add Pagination -->
+        <div class="swiper-pagination"></div>
+    </div>
+    <div class="container">
+    	<h1 id="time"></h1>
+    	<p id="standard"></p>
+    </div>
+    <div class="footer"></div>
+    <script>
+    	/**************Swiper toor**************************/
+    	var swiper= new Swiper('.swiper-container',{
+    		loop: true,
+    		pagination: '.swiper-pagination',
+    		nextButton: '.swiper-button-next',
+    		prevButton: '.swiper-button-prev',
+    		autoplay: 3000, //可选选项，自动滑动
+    		effect : 'cube', //3D旋转效果
+		    cube: {
+		      slideShadows: true,
+		      shadow: true,
+		      shadowOffset: 100,
+		      shadowScale: 0.6
+		    },
+            touchRatio : 0.5, //触摸距离与slide滑动距离的比率。
+    	})
+    	/***************MomentJs Toor****************************/
+    	var time=moment().subtract(10,'days').calendar();
+    	var timeStr=moment().format('L');
+    	var standardTime=moment().format('MMMM Do YYYY dddd h:mm:ss a');
+    	// when have a Timestamp should have a changeFormat 
+    	// self.create_time=moment(data.out.create_time*1000).format('YYYY.MM.D');
+    	console.log(timeStr);
+    	$('#time').html(time);
+    	$('#standard').html(standardTime);
+    </script>
+</body>
+</html>
