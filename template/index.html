@@ -4,16 +4,39 @@
 	<meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
-    <title>会员公约</title>
+    <title>Vue模板</title>
     <link rel="stylesheet" href="css/reset.css">
+    <link rel="stylesheet" href="css/loading.css">
+    <link rel="stylesheet" href="css/swiper.min.css">
+    <script src="js/reset.js"></script>
+    <script src="js/swiper-3.4.2.min.js"></script>
+    <style>
+    body{
+    	padding: 0;
+    	margin: 0;
+    }
+	.banner{
+		height: 11rem;
+		width: 100%;
+	}
+    </style>
 </head>
 <body>
+	<!-- loading -->
+	
+	<!-- loading end -->
 	<header id="header" class="">
-		<div class="binner">
-			
-		</div>
-		<div>
-			
+		<swiper :add-methed="addMethed"></swiper>
+		<loading id="loading"></loading>
+		<banner :src='src' class='banner'></banner>
+		<wall :common="common"></wall>
+		<div class="tab">
+			<div class="container tab-container">
+				<div class="intro general">互助凭证</div>
+				<div class="arrow general">
+					<img src="img/More.png" alt="" class="arrow">
+				</div>
+			</div>
 		</div>
 	</header>
 	<!-- /header -->
@@ -21,4 +44,68 @@
 		
 	</div>
 </body>
+<script>
+	var carouser=new Swiper('.swiper-container',{
+		pagination: '.swiper-pagination',
+		nextButton: '.swiper-button-next',
+		prevButton: '.swiper-button-prev',
+		autoplayDisableOnInteraction: false,
+		paginationClickable: true,
+		autoplay: 500,
+		spaceBetween: 30,
+		loop: true,
+		//simulateTouch : false,  //singel picture use
+		// noSwiping : true,
+	}) 
+</script>
+<script src="js/jquery-3.1.1.min.js"></script>
+<script src="js/vue.min.js"></script>
+<script src="https://unpkg.com/vue-router/dist/vue-router.js"></script>
+<script>
+Vue.component('banner',{
+	props:['src'],
+	template: '<div style="height:11rem;width:100%;"><img :src="src" alt="" width="100%"><div>',
+})
+Vue.component('loading',{
+	template:'<div class="spinner"><div class="spinner-container container1"><div class="circle1"></div><div class="circle2"></div><div class="circle3"></div><div class="circle4"></div></div><div class="spinner-container container2"><div class="circle1"></div><div class="circle2"></div><div class="circle3"></div><div class="circle4"></div></div><div class="spinner-container container3"><div class="circle1"></div><div class="circle2"></div><div class="circle3"></div><div class="circle4"></div></div></div>'
+})
+Vue.component('swiper',{
+	props:['addMethed'],
+	template:'<div class="swiper-container"><div class="swiper-wrapper"><div class="swiper-slide" v-for="item in addMethed" v-html="item.img" @click="item.do"></div></div><div class="swiper-pagination"></div></div>',
+})
+Vue.component('wall',{
+	props:['common'],
+	template:'<div class="container"><div class="common" v-for="item in common" @click="item.do"><div class="common-img" ><img :src="item.url" alt="" class="common-img"></div><div class="common-content"><div class="con-title" v-text="item.title"></div><div class="content" v-text="item.content"></div><div class="con-name"><ul><li><span v-text="item.bands"></span></li></ul></div></div></div>',
+
+})
+Vue.component('tab',{
+	props:['tab'],
+	template:''
+})
+//监听加载状态改变  
+document.onreadystatechange = completeLoading;
+
+//加载状态为complete时移除loading效果  
+function completeLoading() {
+    if (document.readyState == "complete") {
+        //此引用了Jquery，页面没有导jq包的，需要自行加入
+        $("#loading").fadeOut(1500);
+    }
+}
+var vm = new Vue({
+	el: 'header',
+	data:{
+		src:'./img/banner2.png',
+		addMethed:[
+			{img:'<img src="./img/banner1.png" alt="">',do:'go_change()'},
+			{img:'<img src="./img/banner1.png" alt="">',do:'go_change()'},
+			{img:'<img src="./img/banner1.png" alt="">',do:'go_change()'}
+			],
+		common:[
+			{do:'go_change()',url:'./img/banner2.png',title:'贫困孤儿助养',content:'1485元，为一名孤儿提供一年的生活和学习费用。',bands:'发起：深圳市爱德基金会'}
+			],	
+		}
+})
+
+</script>
 </html>    

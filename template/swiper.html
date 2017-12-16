@@ -73,14 +73,15 @@
     		pagination: '.swiper-pagination',
     		nextButton: '.swiper-button-next',
     		prevButton: '.swiper-button-prev',
-    		autoplay: 3000,
-    		effect : 'cube',
+    		autoplay: 3000, //可选选项，自动滑动
+    		effect : 'cube', //3D旋转效果
 		    cube: {
 		      slideShadows: true,
 		      shadow: true,
 		      shadowOffset: 100,
 		      shadowScale: 0.6
-		    }
+		    },
+            touchRatio : 0.5, //触摸距离与slide滑动距离的比率。
     	})
     	/***************MomentJs Toor****************************/
     	var time=moment().subtract(10,'days').calendar();
