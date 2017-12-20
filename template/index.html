@@ -8,6 +8,7 @@
     <link rel="stylesheet" href="css/reset.css">
     <link rel="stylesheet" href="css/loading.css">
     <link rel="stylesheet" href="css/swiper.min.css">
+    <link rel="stylesheet" href="css/animate.css">
     <script src="js/reset.js"></script>
     <script src="js/swiper-3.4.2.min.js"></script>
     <style>
@@ -30,52 +31,59 @@
 		<loading id="loading"></loading>
 		<banner :src='src' class='banner'></banner>
 		<wall :common="common"></wall>
-		<div class="tab">
-			<div class="container tab-container">
-				<div class="intro general">互助凭证</div>
-				<div class="arrow general">
-					<img src="img/More.png" alt="" class="arrow">
-				</div>
-			</div>
-		</div>
+		<tab v-on:click.native="go_change()" :tab="tab"></tab>
+		<drop :drop="drop"></drop>	
+		<tab-bar :tbar="tbar"></tab-bar>
+		<btn :btn="btn"></btn>
+		<tip :tip="tip"></tip>	
+	</header>
+	<!-- /header -->
+	<div class="content">
+		
+	</div>
+</body>
 
-<script>
-	var carouser=new Swiper('.swiper-container',{
-		pagination: '.swiper-pagination',
-		nextButton: '.swiper-button-next',
-		prevButton: '.swiper-button-prev',
-		autoplayDisableOnInteraction: false,
-		paginationClickable: true,
-		autoplay: 500,
-		spaceBetween: 30,
-		loop: true,
-		//simulateTouch : false,  //singel picture use
-		// noSwiping : true,
-	}) 
-</script>
 <script src="js/jquery-3.1.1.min.js"></script>
 <script src="js/vue.min.js"></script>
 <script src="https://unpkg.com/vue-router/dist/vue-router.js"></script>
+<script src="js/template.js"></script>
 <script>
 Vue.component('banner',{
 	props:['src'],
-	template: '<div style="height:11rem;width:100%;"><img :src="src" alt="" width="100%"><div>',
+	template: '<div style="height:11rem;width:100%;position:relative;"><img :src="src" alt="" width="100%"><div class="banner-text">常用组件</div><div>',
 })
 Vue.component('loading',{
 	template:'<div class="spinner"><div class="spinner-container container1"><div class="circle1"></div><div class="circle2"></div><div class="circle3"></div><div class="circle4"></div></div><div class="spinner-container container2"><div class="circle1"></div><div class="circle2"></div><div class="circle3"></div><div class="circle4"></div></div><div class="spinner-container container3"><div class="circle1"></div><div class="circle2"></div><div class="circle3"></div><div class="circle4"></div></div></div>'
 })
 Vue.component('swiper',{
 	props:['addMethed'],
-	template:'<div class="swiper-container"><div class="swiper-wrapper"><div class="swiper-slide" v-for="item in addMethed" v-html="item.img" @click="item.do"></div></div><div class="swiper-pagination"></div></div>',
+	template:'<div class="swiper-container"><div class="swiper-wrapper"><div class="swiper-slide" v-for="item in addMethed" v-html="item.img" @click.native="item.do"></div></div><div class="swiper-pagination"></div></div>',
 })
 Vue.component('wall',{
 	props:['common'],
-	template:'<div class="container"><div class="common" v-for="item in common" @click="item.do"><div class="common-img" ><img :src="item.url" alt="" class="common-img"></div><div class="common-content"><div class="con-title" v-text="item.title"></div><div class="content" v-text="item.content"></div><div class="con-name"><ul><li><span v-text="item.bands"></span></li></ul></div></div></div>',
+	template:'<div class="container"><div class="common" v-for="item in common"><div class="common-img" ><img :src="item.url" alt="" class="common-img"></div><div class="common-content"><div class="con-title" v-text="item.title"></div><div class="content" v-text="item.content"></div><div class="con-name"><ul><li><span v-text="item.bands"></span></li></ul></div></div></div>',
 
 })
 Vue.component('tab',{
 	props:['tab'],
-	template:''
+	template:'<div class="tab"><div class="container tab-container"><div class="intro general" v-text="tab.text"></div><div class="arrow general"><img src="img/More.png" alt="" class="arrow"></div></div></div>'
+})
+Vue.component('drop',{
+	props:['drop'],
+	template:'<div class="drop-down" @click="drop.Show=!drop.Show"><div class="container"><div class="drop-container"><div class="drop-text" v-text="drop.text"></div><div class="arrow" v-bind:class={active:drop.Show}><img src="img/More.png" alt="" class="arrow"></div></div></div><transition name="fade"><div v-if="drop.Show" class="down" v-text="drop.content"></div></transition></div>'
+})
+Vue.component('tabBar',{
+	props:['tbar'],
+	template:'<div class="tab-bar"><div class="container"><div class="tab-img"><img :src="tbar.src" alt="" class="tab-img"></div><div class="tab-text" v-text="tbar.text"></div><div class="arrow"><img src="img/More.png" alt="" class="arrow"> </div></div></div>'
+})
+Vue.component('btn',{
+	props:['btn'],
+	template:'<div class="btn-wrap"><div class="btn" v-text="btn.text"></div></div>',
+})
+/*弹窗提示模块 小bug每次显示时要置tip.show=false*/
+Vue.component('tip',{
+	props:['tip'],
+	template:'<transition name="fade" v-if="tip.show"><div class="tip-wrap"><div class="tip" v-text="tip.text"></div></div></transition>'
 })
 //监听加载状态改变  
 document.onreadystatechange = completeLoading;
@@ -90,25 +98,64 @@ function completeLoading() {
 var vm = new Vue({
 	el: 'header',
 	data:{
+		/*banner模块*/
 		src:'./img/banner2.png',
+		/*轮播图模块*/
 		addMethed:[
 			{img:'<img src="./img/banner1.png" alt="">',do:'go_change()'},
-			{img:'<img src="./img/banner1.png" alt="">',do:'go_change()'},
-			{img:'<img src="./img/banner1.png" alt="">',do:'go_change()'}
+			{img:'<img src="./img/banner2.png" alt="">',do:'go_change()'},
+			{img:'<img src="./img/banner3.png" alt="">',do:'go_change()'}
 			],
+		/*信息缩略模块*/
 		common:[
-			{do:'go_change()',url:'./img/banner2.png',title:'贫困孤儿助养',content:'1485元，为一名孤儿提供一年的生活和学习费用。',bands:'发起：深圳市爱德基金会'}
-			],	
+			{url:'./img/banner2.png',title:'贫困孤儿助养',content:'1485元，为一名孤儿提供一年的生活和学习费用。',bands:'发起：深圳市爱德基金会'}
+			],
+		/*导航模块*/		
+		tab:{
+				text:'常用组件'
+			},
+		/*点击下拉模块*/
+		drop:{
+			text:'常用组件',
+			Show:false,
+			content:'长太息以掩涕兮，哀民生之多艰。余虽好修姱以鞿羁兮，謇朝谇而夕替。既替余以蕙纕兮，又申之以揽茝。亦余心之所善兮，虽九死其犹未悔。怨灵修之浩荡兮，终不察夫民心。众女嫉余之蛾眉兮，谣诼谓余以善淫。固时俗之工巧兮，偭规矩而改错。背绳墨以追曲兮，竞周容以为度。忳郁邑余侘傺兮，吾独穷困乎此时也。宁溘死以流亡兮，余不忍为此态也。',
+			},
+		/*带图的导航模块*/	
+		tbar:{
+			src:'img/search.png',
+			text:'常用组件',
+		},
+		btn:{
+			text:'常用组件',
+		},
+		tip:{
+			show:false,
+			text:'请输入正确的姓名'
+		},	
+		},
+		methods:{
+			go_change:function(){
+				console.log('点击事件');
+			},
+			do_item:function(){
+				console.log('点击事件');
+			}
 		}
 })
-</script>
 
+</script>
 <script>
-new Vue({
-	el: '#header',
-	data:{
-		src:'./img/banner1.png'
-	},
-});
+	var carouser=new Swiper('.swiper-container',{
+		pagination: '.swiper-pagination',
+		nextButton: '.swiper-button-next',
+		prevButton: '.swiper-button-prev',
+		autoplayDisableOnInteraction: false,
+		paginationClickable: true,
+		autoplay: 3000,
+		spaceBetween: 30,
+		loop: true,
+		//simulateTouch : false,  //singel picture use
+		// noSwiping : true,
+	}) 
 </script>
 </html>    
