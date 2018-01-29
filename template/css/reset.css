@@ -89,7 +89,7 @@ input, textarea, select, button, meter, progress {
 	border-radius: 6px;
     -webkit-border-radius: 6px;
 }
-input[type="text" i]:disabled{
+input[type="text"]:disabled{
 	font-size: 1rem;
     font-weight:300;
     letter-spacing: .0625rem;
