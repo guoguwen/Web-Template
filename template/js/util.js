@@ -51,7 +51,6 @@ function invalidIdCard(sId){
 	//aCity[parseInt(sId.substr(0,2))]+","+sBirthday+","+(sId.substr(16,1)%2?"男":"女");//此次还可以判断出输入的身份证号的人性别
 	return true;
 }
-
 /**
  *
  *	invalid the phone
@@ -61,7 +60,6 @@ function invalidPhone(phone){
 	var phone_reg =/^(((13[0-9]{1})|(15[0-9]{1})|(18[0-9]{1})|(17[0-9]{1}))+\d{8})$/;
 	return phone_reg.test(phone);
 }
-
 /**
  *
  *	invalid the name
@@ -71,9 +69,30 @@ function invalidName(name){
 	var name_reg=/[\u4e00-\u9fa5]/;
 	return name_reg.test(name);
 }
-
 /**
  *
- *	
+ *	Get QueryString By The Url Address
  * 
  */
+function GetQueryString(name) {
+    var reg = new RegExp("(^|&)" + name + "=([^&]*)(&|$)");
+    var r = window.location.search.substr(1).match(reg);
+    if (r != null)
+        return unescape(r[2]);
+    return null;
+}
+/**
+ * 数字隔3位加个逗号
+ * @param {*} nStr 需要加逗号的对象
+ */
+function addCommas(nStr) {
+    nStr += '';
+    x = nStr.split('.');
+    x1 = x[0];
+    x2 = x.length > 1 ? '.' + x[1] : '';
+    var rgx = /(\d+)(\d{3})/;
+    while (rgx.test(x1)) {
+        x1 = x1.replace(rgx, '$1' + ',' + '$2');
+    }
+    return x1 + x2;
+}
